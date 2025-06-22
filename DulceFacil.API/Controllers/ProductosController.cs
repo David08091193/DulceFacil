@@ -1,59 +1,64 @@
 ﻿using DulceFacil.Dominio.Entities;
+using DulceFacil.Dominio.Repositories;
+using DulceFacil.Infrastructura.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProductosController : ControllerBase
+namespace DulceFacil.API.Controllers
 {
-    private readonly ProductoRepository _repository;
-
-    public ProductosController(ProductoRepository repository)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductosController : ControllerBase
     {
-        _repository = repository;
-    }
+        private readonly IProductoRepository _repository;
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var productos = await _repository.GetAllAsync();
-        return Ok(productos);
-    }
+        public ProductosController(IProductoRepository repository)
+        {
+            _repository = repository;
+        }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
-    {
-        var producto = await _repository.GetByIdAsync(id);
-        if (producto == null) return NotFound();
-        return Ok(producto);
-    }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var productos = await _repository.GetAllAsync();
+            return Ok(productos);
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Productos producto)
-    {
-        if (producto.Id == Guid.Empty)
-            producto.Id = Guid.NewGuid(); // Esto genera el ID automáticamente en C#
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var producto = await _repository.GetByIdAsync(id);
+            if (producto == null) return NotFound();
+            return Ok(producto);
+        }
 
-        var created = await _repository.AddAsync(producto);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-    }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] Productos producto)
+        {
+            if (producto.Id == Guid.Empty)
+                producto.Id = Guid.NewGuid();
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] Productos producto)
-    {
-        if (producto.Id != id) return BadRequest();
+            await _repository.AddAsync(producto);
+            return CreatedAtAction(nameof(GetById), new { id = producto.Id }, producto);
+        }
 
-        var updated = await _repository.UpdateAsync(producto);
-        if (!updated) return NotFound();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] Productos producto)
+        {
+            if (id != producto.Id) return BadRequest();
 
-        return NoContent();
-    }
+            var updated = await _repository.UpdateAsync(producto);
+            if (!updated) return NotFound();
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var deleted = await _repository.DeleteAsync(id);
-        if (!deleted) return NotFound();
+            return NoContent();
+        }
 
-        return NoContent();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deleted = await _repository.DeleteAsync(id);
+            if (!deleted) return NotFound();
+
+            return NoContent();
+        }
     }
 }

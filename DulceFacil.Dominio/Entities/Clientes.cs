@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace DulceFacil.Dominio.Entities;
 
-
 public partial class Clientes
 {
     public Guid Id { get; set; }

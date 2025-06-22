@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using DulceFacil.Dominio.Entities;
 
 
-
 namespace DulceFacil.Infrastructura.Persistence;
 
 public partial class DulceFacilDBContext : DbContext

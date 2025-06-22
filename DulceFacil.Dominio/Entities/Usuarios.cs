@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DulceFacil.Dominio.Entities;
+namespace DulceFacil.Infrastructura.Persistence;
 
 public partial class Usuarios
 {

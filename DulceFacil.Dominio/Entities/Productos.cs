@@ -2,8 +2,9 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-
 namespace DulceFacil.Dominio.Entities;
+
+
 
 public partial class Productos
 {

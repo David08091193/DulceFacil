@@ -2,8 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using DulceFacil.Dominio.Entities;
 
 namespace DulceFacil.Dominio.Entities;
+
 
 public partial class DetallePedidos
 {

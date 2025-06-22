@@ -1,13 +1,12 @@
-﻿using DulceFacil.Dominio.Entities;
+﻿using DulceFacil.Infrastructura.Persistence;
 using Microsoft.EntityFrameworkCore;
-using DulceFacil.Infrastructura.Persistence;
+using DulceFacil.Dominio.Entities;
 
-
-public class ProductoRepository
+public class ProductosRepository
 {
     private readonly DulceFacilDBContext _context;
 
-    public ProductoRepository(DulceFacilDBContext context)
+    public ProductosRepository(DulceFacilDBContext context)
     {
         _context = context;
     }
